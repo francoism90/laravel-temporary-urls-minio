@@ -10,10 +10,15 @@
     },
     "keywords": [
         "laravel",
-        "minio",
         "temporary-urls",
+        "aws",
         "s3",
-        "aws"
+        "minio",
+        "RustFS",
+        "SeaweedFS",
+        "Garage",
+        "garagehq",
+        "deuxfleurs"
     ],
     "autoload": {
         "psr-4": {
