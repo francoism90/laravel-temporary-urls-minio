@@ -55,7 +55,7 @@ AWS_BUCKET=my-bucket
 AWS_ENDPOINT=http://minio:9000
 
 # Publicly accessible endpoint (used in signed URLs)
-MINIO_PUBLIC_URL=https://storage.example.com
+AWS_URL=https://storage.example.com
 ```
 
 Next, in `config/filesystems.php`:
@@ -75,7 +75,7 @@ Next, in `config/filesystems.php`:
         'report' => false,
 
         /**
-         * Add this to your s3 disk configuration.
+         * Add the environment key (e.g. MINIO_TEMPORARY_URL) to the s3 disk configuration.
          * This is where the magic happens! 🪄
          */
         'temporary_url' => env('AWS_URL'), // 👈 used for rewriting signed URLs
