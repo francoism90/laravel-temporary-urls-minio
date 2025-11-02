@@ -12,7 +12,7 @@
 By default, **Laravel’s `temporaryUrl()` method** works perfectly with S3-compatible storage.  
 It generates a temporary URL to an object in your S3 bucket, easy peasy!
 
-But when you switch to **[MinIO](https://min.io/)**, things get a little wild. Temporary URLs might **not work** if the generated endpoint isn’t directly accessible by your client (browser, mobile app, etc).
+But when you switch to **[MinIO](https://min.io/)**, **[Garage](https://garagehq.deuxfleurs.fr/)**, **[SeaweedFS](https://github.com/seaweedfs/seaweedfs)**, .. things can get a little wild. Temporary URLs might ***not work*** if the generated endpoint isn’t directly accessible by your client (browser, mobile app, etc).
 
 You may have run into this when using `temporaryUrl()` directly, or when a package like [spatie/laravel-medialibrary](https://github.com/spatie/laravel-medialibrary) calls `$media->getTemporaryUrl()` behind the scenes.
 
@@ -74,11 +74,11 @@ Next, in `config/filesystems.php`:
         'throw' => false,
         'report' => false,
 
-    /**
-     * Add this to your s3 disk configuration.
-     * This is where the magic happens! 🪄
-     */
-    'temporary_url' => env('MINIO_PUBLIC_URL'), // 👈 used for rewriting signed URLs
+        /**
+         * Add this to your s3 disk configuration.
+         * This is where the magic happens! 🪄
+         */
+        'temporary_url' => env('AWS_URL'), // 👈 used for rewriting signed URLs
     ],
 ],
 ```
@@ -102,14 +102,14 @@ return $url;
 
 👉 The returned `$url` will always be valid and accessible from your client. You can thank me later! 😎
 
-
 You can also use this with [spatie/laravel-medialibrary](https://github.com/spatie/laravel-medialibrary):
+
 ```php
-$mediaItems = $yourModel->getMedia();
-$temporaryS3Url = $mediaItems[0]->getTemporaryUrl(now()->addMinutes(5));
+$mediaItem = $yourModel->getFirstMedia('thumbnail');
+$temporaryS3Url = $mediaItem->getTemporaryUrl(now()->addMinutes(10));
 ```
 
-No need to install packages like [coreproc/laravel-minio-media-library-provider](https://github.com/CoreProc/laravel-minio-media-library-provider), which take a different (and less effective) approach! Their solution simply returns the MinIO endpoint URL, which is only accessible inside your Docker network, not so helpful if you want to share files with the outside world. 😅
+No need to install packages like [coreproc/laravel-minio-media-library-provider](https://github.com/CoreProc/laravel-minio-media-library-provider), which take a different (and less effective) approach! Their solution simply returns the S3 endpoint URL, which is only accessible inside your Docker network, not so helpful if you want to share files with the outside world. 😅
 
 With this package, your temporary URLs are always accessible, inside or outside Docker. No hacks, no headaches, just happy URLs!
 
@@ -117,9 +117,9 @@ With this package, your temporary URLs are always accessible, inside or outside 
 
 ## 🔍 How It Works
 
-1. Laravel signs the request using your internal MinIO endpoint (`AWS_ENDPOINT`).
+1. Laravel signs the request using your internal S3 endpoint (`AWS_URL`).
 2. This package swoops in and intercepts the signed URL.
-3. It **rewrites the host** from the internal endpoint to the public URL you configured (`MINIO_PUBLIC_URL`).
+3. It **rewrites the host** from the internal endpoint to the public URL you configured (`AWS_ENDPOINT`).
 4. The result? A valid, signed, **publicly accessible** temporary URL. 🎉
 
 ---
@@ -130,7 +130,7 @@ If your `.env` looks like this:
 
 ```dotenv
 AWS_ENDPOINT=http://minio:9000
-MINIO_PUBLIC_URL=https://cdn.example.com
+AWS_URL=https://cdn.example.com
 ```
 
 Then, when you do:
