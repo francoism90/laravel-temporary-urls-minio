@@ -12,7 +12,7 @@
 By default, **Laravel’s `temporaryUrl()` method** works perfectly with S3-compatible storage.  
 It generates a temporary URL to an object in your S3 bucket, easy peasy!
 
-But when you switch to **[MinIO](https://min.io/)**, **[Garage](https://garagehq.deuxfleurs.fr/)**, **[SeaweedFS](https://github.com/seaweedfs/seaweedfs)**, **[RustFS](https://github.com/rustfs/rustfs) .. things can get a little wild. Temporary URLs might ***not work*** if the generated endpoint isn’t directly accessible by your client (browser, mobile app, etc).
+But when you switch to **[MinIO](https://min.io/)**, **[Garage](https://garagehq.deuxfleurs.fr/)**, **[SeaweedFS](https://github.com/seaweedfs/seaweedfs)**, **[RustFS](https://github.com/rustfs/rustfs)** .. things can get a little wild. Temporary URLs might ***not work*** if the generated endpoint isn’t directly accessible by your client (browser, mobile app, etc).
 
 You may have run into this when using `temporaryUrl()` directly, or when a package like [spatie/laravel-medialibrary](https://github.com/spatie/laravel-medialibrary) calls `$media->getTemporaryUrl()` behind the scenes.
 
