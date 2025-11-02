@@ -117,9 +117,9 @@ With this package, your temporary URLs are always accessible, inside or outside 
 
 ## 🔍 How It Works
 
-1. Laravel signs the request using your internal S3 endpoint (`AWS_URL`).
+1. Laravel signs the request using your internal S3 endpoint (`AWS_ENDPOINT`).
 2. This package swoops in and intercepts the signed URL.
-3. It **rewrites the host** from the internal endpoint to the public URL you configured (`AWS_ENDPOINT`).
+3. It **rewrites the host** from the internal endpoint to the public URL you configured (`AWS_URL`).
 4. The result? A valid, signed, **publicly accessible** temporary URL. 🎉
 
 ---
