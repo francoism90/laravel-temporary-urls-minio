@@ -19,11 +19,11 @@ You may have run into this when using `temporaryUrl()` directly, or when a packa
 From the Laravel documentation:
 
 > [!WARNING]
-> Generating temporary storage URLs via the `temporaryUrl` method may not work when using MinIO if the `endpoint` is not accessible by the client.
+> Generating temporary storage URLs via the `temporaryUrl` method may not work when using S3 if the `endpoint` is not accessible by the client.
 > ,  [Laravel Filesystem Docs](https://laravel.com/docs/12.x/filesystem#minio)
 
 **But here’s the BIG question:**
-### How do you make MinIO’s `temporaryUrl()` work in Laravel?
+### How do you make S3’s `temporaryUrl()` work in Laravel?
 
 This package is your **plug-and-play hero!** Just install it, and let the magic happen. 🎩✨
 
